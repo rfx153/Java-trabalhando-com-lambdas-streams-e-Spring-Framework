@@ -1,6 +1,7 @@
 package br.com.alura.screenmatch.principal;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -23,7 +24,7 @@ public class Principal {
     
 
     public void exibeMenu(){
-        System.out.println("Digite o nome da série para ser exibida");
+       /*  System.out.println("Digite o nome da série para ser exibida");
         var nomeSerie = leitura.nextLine();
         var consumoApi = new ConsumoApi();
         var json = consumoApi.obterDados(ENDERECO + nomeSerie.replace(" ", "+") + API_KEY);
@@ -31,7 +32,7 @@ public class Principal {
         System.out.println(dados);
 
         List<DadosTemporada> temporadas = new ArrayList<>();
-
+        */
 		/*for(int i = 1; i<=dados.totalTemporadas(); i++){
         json = consumo.obterDados(ENDERECO + nomeSerie.replace(" ", "+") + "&season="+ i +API_KEY);
 		DadosTemporada dadosTemporada = conversor.obterDados(json, DadosTemporada.class);
@@ -47,8 +48,17 @@ public class Principal {
                 }
             }
     */
-        temporadas.forEach(t -> t.episodios().forEach(e -> System.out.println(e.titulo())));
-        temporadas.forEach(System.out::println );
+        //temporadas.forEach(t -> t.episodios().forEach(e -> System.out.println(e.titulo())));
+        //temporadas.forEach(System.out::println);
+
+     List<String> nome = Arrays.asList("rfx", "paulo", "Nico", "Maria");
+
+     nome.stream()
+        .sorted()
+        .limit(3)
+        .filter(n -> n.startsWith("N"))
+        .map(n -> n.toUpperCase())
+            .forEach(System.out::println);
 
     }
 }

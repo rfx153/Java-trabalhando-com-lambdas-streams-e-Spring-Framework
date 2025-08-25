@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Scanner;
 import java.util.stream.Collector;
@@ -95,20 +96,20 @@ public class Principal {
             .map(d-> new Episodio(t.numero(), d)))
             .collect(Collectors.toList());
 
-             episodios.forEach(System.out::println);
-
-            System.out.println("Digite o texto do titulo do ep") ;
-            var trechoTitulo = leitura.nextLine();
-            Optional<Episodio> episodioBuscado = episodios.stream()
-                .filter(e -> e.getTitulo().toUpperCase().contains(trechoTitulo.toUpperCase()))
-                .findFirst();
-            if (episodioBuscado.isPresent()){
-                System.out.println("episódio encontrando");
-                System.out.println("temporada: " + episodioBuscado.get().getTemporada());
-            }
-            else {
-                System.out.println("episódio não encontrado");
-            }
+            //  episodios.forEach(System.out::println);
+            //busca de ep pelo nome
+            // System.out.println("Digite o texto do titulo do ep") ;
+            // var trechoTitulo = leitura.nextLine();
+            // Optional<Episodio> episodioBuscado = episodios.stream()
+            //     .filter(e -> e.getTitulo().toUpperCase().contains(trechoTitulo.toUpperCase()))
+            //     .findFirst();
+            // if (episodioBuscado.isPresent()){
+            //     System.out.println("episódio encontrando");
+            //     System.out.println("temporada: " + episodioBuscado.get().getTemporada());
+            // }
+            // else {
+            //     System.out.println("episódio não encontrado");
+            // }
 
             // System.out.println("A partir de que ano você deseja ver os eps?");
             // var ano = leitura.nextInt();
@@ -129,5 +130,14 @@ public class Principal {
             //         )
             //     );
 
+        Map<Integer, Double> avaliacoesPorTemporada = episodios.stream()
+        .filter(e -> e.getAvaliacao()> 0.0)
+        .collect(Collectors.groupingBy(Episodio::getTemporada, 
+                 Collectors.averagingDouble(Episodio::getAvaliacao)));
+        System.out.println(avaliacoesPorTemporada);
+
     }
 }
+
+//{1=8.154545454545454, 2=7.95, 3=8.93, 4=9.23, 5=7.860000000000001, 6=8.98, 7=9.028571428571428, 8=6.3999999999999995}
+//{1=8.97, 2=8.833333333333334, 3=8.93, 4=9.23, 5=8.733333333333334, 6=8.98, 7=9.028571428571428, 8=6.3999999999999995}

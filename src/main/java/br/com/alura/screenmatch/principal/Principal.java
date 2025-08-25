@@ -1,5 +1,8 @@
 package br.com.alura.screenmatch.principal;
 
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -37,7 +40,8 @@ public class Principal {
 
         List<DadosTemporada> temporadas = new ArrayList<>();
         
-	    for(int i = 1; i<=dados.totalTemporadas(); i++){
+	    for(int i = 1; i<=dados.totalTemporadas(); i++)
+        {
         json = consumo.obterDados(ENDERECO + nomeSerie.replace(" ", "+") + "&season="+ i +API_KEY);
 		DadosTemporada dadosTemporada = conversor.obterDados(json, DadosTemporada.class);
 		temporadas.add(dadosTemporada);
@@ -46,7 +50,8 @@ public class Principal {
     
             for(int i =0; i< dados.totalTemporadas(); i++){
                 List<DadosEpisodio> episodiosTemporada = temporadas.get(i).episodios();
-                for (int j =0; j < episodiosTemporada.size(); j++){
+                for (int j =0; j < episodiosTemporada.size(); j++)
+                {
                     System.out.println(episodiosTemporada.get(j).titulo());
 
                 }
@@ -85,6 +90,25 @@ public class Principal {
             .collect(Collectors.toList());
 
             episodios.forEach(System.out::println);
+
+            System.out.println("A partir de que ano você deseja ver os eps?");
+            var ano = leitura.nextInt();
+            leitura.nextLine();
+
+            LocalDate dataBusca = LocalDate.of(ano, 1, 1);
+
+            DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+            episodios.stream()
+                .filter(e -> e.getdataLancamento() != null && e.getdataLancamento().isAfter(dataBusca))
+                .forEach(e -> 
+                    System.out.println( 
+                        "Temporada" + e.getTemporada() + 
+                        " Episodio: " + e.getTitulo() + 
+                        " Data Lançamento: " + e.getdataLancamento().format(formatador)
+                    
+                    )
+                );
 
     }
 }
